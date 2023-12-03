@@ -1,0 +1,17 @@
+#!/bin/sh
+##SBATCH -q urgent
+##SBATCH -q debug
+#SBATCH --cluster=c5
+#SBATCH -t 02:00:00
+#SBATCH -A nggps_psd
+#SBATCH -N 10     
+#SBATCH -J replay_observer
+#SBATCH -e replay_observer.err
+#SBATCH -o replay_observer.out
+
+export NODES=$SLURM_NNODES
+export corespernode=$SLURM_CPUS_ON_NODE
+export machine='gaea'
+export gsi_control_threads=4
+echo "JOBID = $SLURM_JOBID"
+
