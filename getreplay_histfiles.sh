@@ -44,6 +44,10 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
+YYYYMM=`echo $YYYYMMDDHH | cut -c1-6`
+YYYYMMDD=`echo $YYYYMMDDHH | cut -c1-8`
+HH=`echo $YYYYMMDDHH | cut -c9-10`
+DD=`echo $YYYYMMDDHH | cut -c7-8`
 MM=`echo $YYYYMMDDHH | cut -c5-6`
 YYYY=`echo $YYYYMMDDHH | cut -c1-4`
 S3PATH=s3://noaa-ufs-gefsv13replay-pds/${YYYY}/${MM}/${YYYYMMDDHH}
@@ -53,11 +57,11 @@ fh=$FHMIN
 while [ $fh -le $FHMAX ]; do
   charfhr="fhr"`printf %02i $fh`
   echo "$S3PATH/sfg_${YYYYMMDDHH}_${charfhr}_control"
-  aws s3 ls --no-sign-request $S3PATH/sfg_${YYYYMMDDHH}_${charfhr}_control 
-  aws s3 cp --no-sign-request $S3PATH/sfg_${YYYYMMDDHH}_${charfhr}_control .
+  #aws s3 ls --no-sign-request $S3PATH/sfg_${YYYYMMDDHH}_${charfhr}_control 
+  aws s3 cp --no-sign-request --only-show-errors $S3PATH/sfg_${YYYYMMDDHH}_${charfhr}_control . &
   echo "$S3PATH/bfg_${YYYYMMDDHH}_${charfhr}_control"
-  aws s3 ls --no-sign-request $S3PATH/bfg_${YYYYMMDDHH}_${charfhr}_control 
-  aws s3 cp --no-sign-request $S3PATH/bfg_${YYYYMMDDHH}_${charfhr}_control .
+  #aws s3 ls --no-sign-request $S3PATH/bfg_${YYYYMMDDHH}_${charfhr}_control 
+  aws s3 cp --no-sign-request --only-show-errors $S3PATH/bfg_${YYYYMMDDHH}_${charfhr}_control . &
   fh=$[$fh+$FHOUT]
 done
 popd
@@ -67,9 +71,10 @@ export SATINFO=$outpath/satinfo
 export CONVINFO=$outpath/convinfo
 export OZINFO=$outpath/ozinfo
 echo "generate satinfo"
-sh create_satinfo.sh $analdate > $SATINFO
+sh create_satinfo.sh $analdate > $SATINFO &
 echo "generate convinfo"
-sh create_convinfo.sh $analdate > $CONVINFO
+sh create_convinfo.sh $analdate > $CONVINFO &
 echo "generate ozinfo"
-sh create_ozinfo.sh $analdate > $OZINFO
+sh create_ozinfo.sh $analdate > $OZINFO &
 cd ..
+wait

@@ -17,7 +17,7 @@ to <expthome>/YYYYMMDDHH. Create an empty aircraft bias correction file by touch
 
 Create analdate.sh in the top level experiment directory (<expthome>).
 analdate.csh should contain
-"export analdate=YYYYMMDDHH1" and "export analdate_end=YYYYMMDDHH2", where YYYYMMDDHH1,2 is the
-date you want the experiment to start and end.
+"export analdate=YYYYMMDDHH_start" and "export analdate_end=YYYYMMDDHH_end", where YYYYMMDDHH_start,_end ares the
+dates you want the experiment to start and end.
 
 gsi.x executable needs to be in exec_<machine>
