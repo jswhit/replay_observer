@@ -12,11 +12,14 @@ fi
 $hsi ls -l $hsidir
 $hsi mkdir ${hsidir}/
 cd ${datapath}
-$htar -cvf ${hsidir}/${analdate}.tar ${analdate}/*diag*nc* ${analdate}/*info* ${analdate}/*gsi*
+$htar -cvf ${hsidir}/${analdate}.tar ${analdate}/*diag*nc* ${analdate}/*abias* ${analdate}/*info* ${analdate}/sanl* ${analdate}/*gsi*
 $hsi ls -l ${hsidir}/${analdate}.tar
 exitstat=$?
 if [  $exitstat -ne 0 ]; then
    echo "htar failed ${analdate} with exit status $exitstat..."
    exit 1
+else
+   # remove everything except logs, gsistats and  abias* files
+   /bin/rm -f ${analdate}/*diag*nc* ${analdate}/*info* ${analdate}/sanl*
 fi
 exit $exitstat
