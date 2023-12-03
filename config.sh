@@ -60,7 +60,8 @@ elif [ "$machine" == 'gaea' ]; then
    export datapath="${datadir}/${exptname}"
    export logdir="${datadir}/logs/${exptname}"
    export incdate="${scriptsdir}/incdate.sh"
-   export obs_datapath=/lustre/f2/dev/Jeffrey.S.Whitaker/dumps
+   #export obs_datapath=/lustre/f2/dev/Jeffrey.S.Whitaker/dumps
+   export obs_datapath=${datapath}/dumps
    ulimit -s unlimited
    source /lustre/f2/dev/role.epic/contrib/Lmod_init.sh
    module unload cray-libsci
