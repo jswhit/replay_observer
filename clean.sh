@@ -1,6 +1,5 @@
 echo "clean up files `date`"
 cd $datapath2
-charnanal='control'
 /bin/rm -f sfg*control bfg*control
 /bin/rm -f fort*
 /bin/rm -f *log

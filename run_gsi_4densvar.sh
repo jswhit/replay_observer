@@ -145,7 +145,7 @@ if [[ "$HXONLY" != "YES" ]]; then
    if [[ $beta_s0 > 0.999 ]]; then # 3dvar or hybrid gain
       STRONGOPTS="tlnmc_option=1,nstrong=1,nvmodes_keep=8,period_max=6.,period_width=1.5"
       if [ $NOOUTERLOOP == "YES" ]; then
-         SETUP="$SETUP,miter=1,niter(1)=150,niter(2)=0,write_diag(1)=.true.,write_diag(2)=.true."
+         SETUP="$SETUP,miter=1,niter(1)=100,niter(2)=0,write_diag(1)=.true.,write_diag(2)=.true."
       else
          SETUP="$SETUP,miter=2,niter(1)=100,niter(2)=100,write_diag(1)=.true.,write_diag(2)=.false,write_diag(3)=.true."
       fi
@@ -973,6 +973,7 @@ fi # skipcat
 # If requested, clean up $tmpdir
 if [[ "$CLEAN" = "YES" ]];then
   cd $tmpdir
+  cp gsiparm.anl $savdir
   cd ../
   /bin/rm -rf $tmpdir
 fi
