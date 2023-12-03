@@ -78,3 +78,7 @@ echo "generate ozinfo"
 sh create_ozinfo.sh $analdate > $OZINFO &
 cd ..
 wait
+ls -l ${outpath}/*fg*control
+
+# now get bufr dumps
+sh getawsobs.sh
