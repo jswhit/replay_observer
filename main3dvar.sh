@@ -106,6 +106,21 @@ else
    echo "$analdate failed to get replay backgrounds `date`"
    exit 1
 fi
+ 
+# get obs from aws
+echo "$analdate get bufr dumps `date`"
+if [ $machine == "gaea" ]; then
+   # aws cli only works on eslogin partition
+   sbatch --wait --export=obs_datapath=${obs_datapath},analdate=${analdate} getawsobs.sh
+else
+   sh getawsobs.sh $analdate $obs_datapath > ${current_logdir}/getawsobs.out 2>&1 
+fi
+if [ $? -eq 0 ] && [ -s $obs_datapath/gdas.${yr}${mon}${day}/${hr}/atmos/gdas.t${hr}z.prepbufr ]; then
+   echo "$analdate done getting bufr dumps `date`"
+else
+   echo "$analdate failed to get bufr dumps `date`"
+   exit 1
+fi
 
 type="3DVar"
 export charnanal='control' 
