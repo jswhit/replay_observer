@@ -20,6 +20,6 @@ if [  $exitstat -ne 0 ]; then
    exit 1
 else
    # remove everything except logs, gsistats and  abias* files
-   /bin/rm -f ${analdate}/*diag*nc* ${analdate}/*info* ${analdate}/sanl*
+   /bin/rm -f ${analdate}/*diag*nc* ${analdate}/*info* ${analdate}/sanl* ${analdate}/gsiparm.anl
 fi
 exit $exitstat
