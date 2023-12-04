@@ -8,29 +8,29 @@
 #SBATCH -e getawsobs.out
 #SBATCH -o getawsobs.out
 
+obtyp_default="all"
 YYYYMMDDHH=${analdate:-$1}
-obtyp=${obtyp:-"all"} # specify single ob type, default is all obs.
-OUTPATH=${obs_datapath:-$3}
-
+OUTPATH=${obs_datapath:-$2}
+obtyp=${obtyp_default:-$3} # specify single ob type, default is all obs.
 
 which aws
 if [ $? -ne 0 ]; then
-source /lustre/f2/dev/role.epic/contrib/Lmod_init.sh
-echo "SLURM_CLUSTER_NAME=$SLURM_CLUSTER_NAME"
-if [ $SLURM_CLUSTER_NAME == 'c5' ]; then
-   module use /lustre/f2/dev/wpo/role.epic/contrib/spack-stack/c5/modulefiles
-   module use /lustre/f2/dev/wpo/role.epic/contrib/spack-stack/c5/spack-stack-1.5.0/envs/unified-env/install/modulefiles/Core
-   module load stack-intel/2023.1.0
-   module load awscli
-elif  [ $SLURM_CLUSTER_NAME == 'es' ]; then
-   module use /lustre/f2/dev/wpo/role.epic/contrib/spack-stack/c4/modulefiles
-   module use /lustre/f2/dev/wpo/role.epic/contrib/spack-stack/c4/spack-stack-1.5.0/envs/unified-env/install/modulefiles/Core
-   module load stack-intel/2022.0.2
-   module load awscli
-else
-   echo "cluster must be es or c5"
-   exit 1
-fi
+   source /lustre/f2/dev/role.epic/contrib/Lmod_init.sh
+   echo "SLURM_CLUSTER_NAME=$SLURM_CLUSTER_NAME"
+   if [ $SLURM_CLUSTER_NAME == 'c5' ]; then
+      module use /lustre/f2/dev/wpo/role.epic/contrib/spack-stack/c5/modulefiles
+      module use /lustre/f2/dev/wpo/role.epic/contrib/spack-stack/c5/spack-stack-1.5.0/envs/unified-env/install/modulefiles/Core
+      module load stack-intel/2023.1.0
+      module load awscli
+   elif  [ $SLURM_CLUSTER_NAME == 'es' ]; then
+      module use /lustre/f2/dev/wpo/role.epic/contrib/spack-stack/c4/modulefiles
+      module use /lustre/f2/dev/wpo/role.epic/contrib/spack-stack/c4/spack-stack-1.5.0/envs/unified-env/install/modulefiles/Core
+      module load stack-intel/2022.0.2
+      module load awscli
+   else
+      echo "cluster must be es or c5"
+      exit 1
+   fi
 fi
 which aws
 if [ $? -ne 0 ]; then
