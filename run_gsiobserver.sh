@@ -130,6 +130,7 @@ if [ $alldone == 'no' ]; then
 else
     echo "yes" > ${current_logdir}/run_gsi_observer.log 2>&1
     if [ $skipcat == 'false' ]; then
+        /bin/cp -f $tmpdir/gsiparm.anl ${datapath2}
         /bin/rm -rf $tmpdir
     fi
 fi
