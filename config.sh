@@ -17,8 +17,10 @@ export resubmit='true'
 # HPSS save should be done)
 if [ $machine == "orion" ] || [ $machine == "hercules" ]; then
    export save_hpss="false"
+   export save_s3="true"
 else
-   export save_hpss="true"
+   export save_hpss="false"
+   export save_s3="true"
 fi
 
 if [ $machine == "hercules" ]; then

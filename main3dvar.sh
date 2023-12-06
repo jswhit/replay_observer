@@ -92,15 +92,11 @@ else
 fi
 echo "cold_start_bias = $cold_start_bias"
 
-# get replay backgrounds (and create satinfo, convinfo, ozinfo)
+# get replay backgrounds, bufr dumps (and create satinfo, convinfo, ozinfo)
 echo "$analdate get replay backgrounds and bufr dumps, create info files `date`"
-if [ $machine == "gaea" ]; then
-   # aws cli only works on eslogin partition
-   #sbatch --wait --export=datapath2=${datapath2},analdate=${analdate},FHMAX=${FHMAX},FHMIN=${FHMIN},FHOUT=${FHOUT} getreplay_histfiles.sh
-   sbatch --wait --export=datapath2=${datapath2},analdate=${analdate},FHMAX=${FHMAX},FHMIN=${FHMIN},FHOUT=${FHOUT},obs_datapath=${obs_datapath} getreplay_histfiles.sh
-else
-   sh getreplay_histfiles.sh $analdate $datapath2 $FHMIN $FHMAX $FHOUT > ${current_logdir}/getreplay_backgrounds.out 2>&1 
-fi
+# aws cli only works on eslogin partition on gaea, or service partition on hercules/orion
+cat ${machine}_preamble_s3data getreplay_histfiles.sh > job_getreplay.sh
+sbatch --wait --export=datapath2=${datapath2},analdate=${analdate},FHMAX=${FHMAX},FHMIN=${FHMIN},FHOUT=${FHOUT},obs_datapath=${obs_datapath} job_getreplay.sh
 if [ $? -eq 0 ] && [ -s ${datapath2}/sfg_${analdate}_fhr06_control ] && [ -s ${datapath2}/bfg_${analdate}_fhr06_control ]; then
    echo "$analdate done getting replay backgrounds and bufr dumps `date`"
 else
@@ -147,11 +143,16 @@ wait # wait for backgrounded processes to finish
 cd $homedir
 if [ $save_hpss == 'true' ]; then
    cat ${machine}_preamble_hpss hpss.sh > job_hpss.sh
+elif [ $save_s3 == 'true' ]; then
+   cat ${machine}_preamble_s3data s3archive.sh > job_hpss.sh
 fi
-#sbatch --export=ALL job_hpss.sh
-sbatch --export=machine=${machine},analdate=${analdate},datapath=${datapath},hsidir=${hsidir},save_hpss=${save_hpss},obs_datapath=${obs_datapath} job_hpss.sh
+
+if [ $save_hpss == 'true' ] || [ $save_s3 == 'true' ]; then
+   sbatch --export=machine=${machine},analdate=${analdate},analdate_prod=${analdate_prod},datapath=${datapath},hsidir=${hsidir},save_hpss=${save_hpss},obs_datapath=${obs_datapath} job_hpss.sh
+fi
 
 echo "$analdate all done"
+exit
 
 # next analdate: increment by $ANALINC
 export analdate=`${incdate} $analdate $ANALINC`
