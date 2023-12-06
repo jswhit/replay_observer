@@ -41,7 +41,11 @@ HH=`echo $YYYYMMDDHH | cut -c9-10`
 DD=`echo $YYYYMMDDHH | cut -c7-8`
 MM=`echo $YYYYMMDDHH | cut -c5-6`
 YYYY=`echo $YYYYMMDDHH | cut -c1-4`
-S3PATH=s3://noaa-ufs-gefsv13replay-pds/${YYYY}/${MM}/${YYYYMMDDHH}
+if [ $analdate -lt $analdate_prod ]; then # get data from spin-up directory
+   S3PATH=s3://noaa-ufs-gefsv13replay-pds/spinup/${YYYY}/${MM}/${YYYYMMDDHH}
+else
+   S3PATH=s3://noaa-ufs-gefsv13replay-pds/${YYYY}/${MM}/${YYYYMMDDHH}
+fi
 mkdir -p $outpath
 pushd $outpath
 fh=$FHMIN

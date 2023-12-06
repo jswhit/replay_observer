@@ -96,7 +96,7 @@ echo "cold_start_bias = $cold_start_bias"
 echo "$analdate get replay backgrounds and bufr dumps, create info files `date`"
 # aws cli only works on eslogin partition on gaea, or service partition on hercules/orion
 cat ${machine}_preamble_s3data getreplay_histfiles.sh > job_getreplay.sh
-sbatch --wait --export=datapath2=${datapath2},analdate=${analdate},FHMAX=${FHMAX},FHMIN=${FHMIN},FHOUT=${FHOUT},obs_datapath=${obs_datapath} job_getreplay.sh
+sbatch --wait --export=datapath2=${datapath2},analdate=${analdate},analdate_prod=${analdate_prod},FHMAX=${FHMAX},FHMIN=${FHMIN},FHOUT=${FHOUT},obs_datapath=${obs_datapath} job_getreplay.sh
 if [ $? -eq 0 ] && [ -s ${datapath2}/sfg_${analdate}_fhr06_control ] && [ -s ${datapath2}/bfg_${analdate}_fhr06_control ]; then
    echo "$analdate done getting replay backgrounds and bufr dumps `date`"
 else
