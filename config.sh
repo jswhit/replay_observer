@@ -22,6 +22,8 @@ else
    export save_hpss="false"
    export save_s3="true"
 fi
+export cleanup_controlanl="true"
+export cleanup_observer="true"
 
 if [ $machine == "hercules" ]; then
    source $MODULESHOME/init/sh
