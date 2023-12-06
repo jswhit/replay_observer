@@ -27,8 +27,8 @@ if [ $? -ne 0 ]; then
 fi
 
 cd $datapath
-MM=`echo $YYYYMMDDHH | cut -c5-6`
-YYYY=`echo $YYYYMMDDHH | cut -c1-4`
+MM=`echo $analdate | cut -c5-6`
+YYYY=`echo $analdate | cut -c1-4`
 if [ $analdate -lt $analdate_prod ];then # put data in spin-up directory
    aws s3 cp --recursive --quiet ${analdate} s3://noaa-ufs-gefsv13replay-pds/spinup/${YYYY}/${MM}/${analdate}/gsi/ --profile noaa-bdp 
 else
@@ -40,8 +40,9 @@ if [ $? -ne 0 ]; then
   exitstat=1
 else
   echo "s3 archive succceeded "$filename
+  echo "data written to s3://noaa-ufs-gefsv13replay-pds/${YYYY}/${MM}/${analdate}/gsi"
   aws s3 ls --no-sign-request s3://noaa-ufs-gefsv13replay-pds/${YYYY}/${MM}/${analdate}/gsi/
   # remove everything except logs, gsistats and  abias* files
-  #/bin/rm -f ${analdate}/*diag*nc* ${analdate}/*info* ${analdate}/sanl* ${analdate}/gsiparm.anl
+  /bin/rm -f ${analdate}/*diag*nc* ${analdate}/*info* ${analdate}/sanl* ${analdate}/gsiparm.anl
 fi
 exit $exitstat

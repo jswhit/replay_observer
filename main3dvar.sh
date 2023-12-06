@@ -152,7 +152,6 @@ if [ $save_hpss == 'true' ] || [ $save_s3 == 'true' ]; then
 fi
 
 echo "$analdate all done"
-exit
 
 # next analdate: increment by $ANALINC
 export analdate=`${incdate} $analdate $ANALINC`

@@ -5,5 +5,5 @@
 #SBATCH -A nggps_psd
 #SBATCH -N 1     
 #SBATCH -J getawsdata
-#SBATCH -e getawsdata.err
+#SBATCH -e getawsdata.out
 #SBATCH -o getawsdata.out
