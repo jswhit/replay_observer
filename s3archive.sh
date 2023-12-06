@@ -29,19 +29,20 @@ fi
 cd $datapath
 MM=`echo $analdate | cut -c5-6`
 YYYY=`echo $analdate | cut -c1-4`
-if [ $analdate -lt $analdate_prod ];then # put data in spin-up directory
-   aws s3 cp --recursive --quiet ${analdate} s3://noaa-ufs-gefsv13replay-pds/spinup/${YYYY}/${MM}/${analdate}/gsi/ --profile noaa-bdp 
+if [ $analdate -lt $analdate_prod ]; then # put data in spin-up directory
+   s3path=s3://noaa-ufs-gefsv13replay-pds/spinup/${YYYY}/${MM}/${analdate}/gsi/
 else
-   aws s3 cp --recursive --quiet ${analdate} s3://noaa-ufs-gefsv13replay-pds/${YYYY}/${MM}/${analdate}/gsi/ --profile noaa-bdp 
+   s3path=s3://noaa-ufs-gefsv13replay-pds/${YYYY}/${MM}/${analdate}/gsi/
 fi
+aws s3 cp --recursive --quiet ${analdate} $s3path --profile noaa-bdp 
 
 if [ $? -ne 0 ]; then
   echo "s3 archive failed "$filename
   exitstat=1
 else
   echo "s3 archive succceeded "$filename
-  echo "data written to s3://noaa-ufs-gefsv13replay-pds/${YYYY}/${MM}/${analdate}/gsi"
-  aws s3 ls --no-sign-request s3://noaa-ufs-gefsv13replay-pds/${YYYY}/${MM}/${analdate}/gsi/
+  echo "data written to ${s3path}"
+  aws s3 ls --no-sign-request $s3path
   # remove everything except logs, gsistats and  abias* files
   /bin/rm -f ${analdate}/*diag*nc* ${analdate}/*info* ${analdate}/sanl* ${analdate}/gsiparm.anl
 fi

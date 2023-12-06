@@ -157,6 +157,7 @@ echo "$analdate all done"
 export analdate=`${incdate} $analdate $ANALINC`
 
 echo "export analdate=${analdate}" > $startupenv
+echo "export analdate_prod=${analdate_prod}" >> $startupenv
 echo "export analdate_end=${analdate_end}" >> $startupenv
 
 cd $homedir
