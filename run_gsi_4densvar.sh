@@ -289,6 +289,7 @@ OBS_INPUT::
    gpsrobufr      gps_bnd     null        gps                 0.0     0      0
    ssmirrbufr     pcp_ssmi    dmsp        pcp_ssmi            0.0    -1      0
    tmirrbufr      pcp_tmi     trmm        pcp_tmi             0.0    -1      0
+   sbuvbufr       sbuv2       n09         sbuv8_n09           0.0     0      0
    sbuvbufr       sbuv2       n11         sbuv8_n11           0.0     0      0
    sbuvbufr       sbuv2       n14         sbuv8_n14           0.0     0      0
    sbuvbufr       sbuv2       n16         sbuv8_n16           0.0     0      0
@@ -573,7 +574,7 @@ fi
 if [[ "$NOSAT" = "NO" ]]; then
 if [[ "$NOCONV" = "NO" ]]; then
 # use nasa sbuv8 if available
-if [[ -s $datobs/${prefix_obs}.osbuv8.${suffix} ]]; then
+if [[ -s $datobs/${prefix_obs}.sbuv8_v87.${suffix} ]]; then
 $nln $datobs/${prefix_obs}.sbuv8_v87.${suffix}   ./sbuvbufr
 elif [[ -s $datobs/${prefix_obs}.osbuv8.${suffix} ]]; then
 $nln $datobs/${prefix_obs}.osbuv8.${suffix}   ./sbuvbufr
@@ -750,8 +751,9 @@ fi
 fi
 
 # make symlinks for diag files to initialize angle dependent bias correction for new channels.
-satdiag="ssu_n14 hirs2_n14 msu_n14 sndr_g08 sndr_g09 sndr_g11 sndr_g12 sndr_g13 sndr_g08_prep sndr_g11_prep sndr_g12_prep sndr_g13_prep sndrd1_g11 sndrd2_g11 sndrd3_g11 sndrd4_g11 sndrd1_g12 sndrd2_g12 sndrd3_g12 sndrd4_g12 sndrd1_g13 sndrd2_g13 sndrd3_g13 sndrd4_g13 sndrd1_g14 sndrd2_g14 sndrd3_g14 sndrd4_g14 sndrd1_g15 sndrd2_g15 sndrd3_g15 sndrd4_g15 hirs2_n14 hirs3_n15 hirs3_n16 hirs3_n17 amsua_n15 amsua_n16 amsua_n17 amsub_n15 amsub_n16 amsub_n17 hsb_aqua airs_aqua amsua_aqua imgr_g08 imgr_g11 imgr_g12 imgr_g14 imgr_g15 gome_metop-a omi_aura mls_aura ssmi_f13 ssmi_f14 ssmi_f15 hirs4_n18 hirs4_metop-a amsua_n18 amsua_metop-a mhs_n18 mhs_metop-a amsre_low_aqua amsre_mid_aqua amsre_hig_aqua ssmis_las_f16 ssmis_uas_f16 ssmis_img_f16 ssmis_env_f16 ssmis_las_f17 ssmis_uas_f17 ssmis_img_f17 ssmis_env_f17 ssmis_las_f18 ssmis_uas_f18 ssmis_img_f18 ssmis_env_f18 ssmis_las_f19 ssmis_uas_f19 ssmis_img_f19 ssmis_env_f19 ssmis_las_f20 ssmis_uas_f20 ssmis_img_f20 ssmis_env_f20 ssmis_f20 iasi_metop-a hirs4_n19 amsua_n19 mhs_n19 seviri_m08 seviri_m09 seviri_m10 cris_npp atms_npp hirs4_metop-b amsua_metop-b mhs_metop-b iasi_metop-b gome_metop-b avhrr_n18 avhrr_metop-a avhrr_n15 avhrr_n16 avhrr_n17 avhrr_n19 avhrr_metop-a amsr2_gcom-w1 gmi_gpm saphir_meghat ahi_himawari8 abi_g16 abi_g17 amsua_metop-c mhs_metop-c iasi_metop-c avhrr_metop-c cris-fsr_npp cris-fsr_n20 atms_n20"
-alldiag="$satdiag pcp_ssmi_dmsp pcp_tmi_trmm conv_tcp conv_gps conv_t conv_q conv_uv conv_ps sbuv2_n11 sbuv2_n14 sbuv2_n16 sbuv2_n17 sbuv2_n18 sbuv2_n19 gome_metop-a gome_metop-b omi_aura mls30_aura ompsnp_npp ompstc8_npp gome-metop-c pcp_ssmi_dmsp pcp_tmi_trmm"
+satdiag=$(cat ${scriptsdir}/build_gsinfo/satinfo/satellites)
+#satdiag="ssu_n14 hirs2_n11 hirs2_n12 hirs2_n14 msu_n11 msu_n12 msu_n14 sndr_g08 sndr_g09 sndr_g11 sndr_g12 sndr_g13 sndr_g08_prep sndr_g11_prep sndr_g12_prep sndr_g13_prep sndrd1_g11 sndrd2_g11 sndrd3_g11 sndrd4_g11 sndrd1_g12 sndrd2_g12 sndrd3_g12 sndrd4_g12 sndrd1_g13 sndrd2_g13 sndrd3_g13 sndrd4_g13 sndrd1_g14 sndrd2_g14 sndrd3_g14 sndrd4_g14 sndrd1_g15 sndrd2_g15 sndrd3_g15 sndrd4_g15 hirs2_n14 hirs3_n15 hirs3_n16 hirs3_n17 amsua_n15 amsua_n16 amsua_n17 amsub_n15 amsub_n16 amsub_n17 hsb_aqua airs_aqua amsua_aqua imgr_g08 imgr_g11 imgr_g12 imgr_g14 imgr_g15 gome_metop-a omi_aura mls_aura ssmi_f13 ssmi_f14 ssmi_f15 hirs4_n18 hirs4_metop-a amsua_n18 amsua_metop-a mhs_n18 mhs_metop-a amsre_low_aqua amsre_mid_aqua amsre_hig_aqua ssmis_las_f16 ssmis_uas_f16 ssmis_img_f16 ssmis_env_f16 ssmis_las_f17 ssmis_uas_f17 ssmis_img_f17 ssmis_env_f17 ssmis_las_f18 ssmis_uas_f18 ssmis_img_f18 ssmis_env_f18 ssmis_las_f19 ssmis_uas_f19 ssmis_img_f19 ssmis_env_f19 ssmis_las_f20 ssmis_uas_f20 ssmis_img_f20 ssmis_env_f20 ssmis_f20 iasi_metop-a hirs4_n19 amsua_n19 mhs_n19 seviri_m08 seviri_m09 seviri_m10 cris_npp atms_npp hirs4_metop-b amsua_metop-b mhs_metop-b iasi_metop-b gome_metop-b avhrr_n18 avhrr_metop-a avhrr_n15 avhrr_n16 avhrr_n17 avhrr_n19 avhrr_metop-a amsr2_gcom-w1 gmi_gpm saphir_meghat ahi_himawari8 abi_g16 abi_g17 amsua_metop-c mhs_metop-c iasi_metop-c avhrr_metop-c cris-fsr_npp cris-fsr_n20 atms_n20"
+alldiag="$satdiag conv_tcp conv_gps conv_t conv_q conv_uv conv_ps sbuv8_n09 sbuv8_n11 sbuv8_n14 sbuv8_n16 sbuv8_n17 sbuv8_n18 sbuv8_n19 gome_metop-a gome_metop-b gome_metop-c omi_aura mls30_aura ompsnp_npp ompstc8_npp"
 string='ges'
 for type in $satdiag; do
     if [[ "$cold_start_bias" = "true" ]]; then

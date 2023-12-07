@@ -11,20 +11,9 @@ while [ $idate_job -le ${ndates_job} ]; do
 export startupenv="${datapath}/analdate.sh"
 source $startupenv
 
-## this gets done in getreplay_histfiles.sh
-#cd build_gsinfo
-##/bin/rm -rf $datapath/$analdate
-#mkdir -p $datapath/$analdate
-#export SATINFO=$datapath/$analdate/satinfo
-#export CONVINFO=$datapath/$analdate/convinfo
-#export OZINFO=$datapath/$analdate/ozinfo
-#echo "generate satinfo"
-#sh create_satinfo.sh $analdate > $SATINFO
-#echo "generate convinfo"
-#sh create_convinfo.sh $analdate > $CONVINFO
-#echo "generate ozinfo"
-#sh create_ozinfo.sh $analdate > $OZINFO
-#cd ..
+export SATINFO=$datapath/$analdate/satinfo
+export CONVINFO=$datapath/$analdate/convinfo
+export OZINFO=$datapath/$analdate/ozinfo
 
 #------------------------------------------------------------------------
 mkdir -p $datapath
