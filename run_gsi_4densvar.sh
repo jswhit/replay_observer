@@ -775,7 +775,8 @@ fi
 
 # make symlinks for diag files to initialize angle dependent bias correction for new channels.
 satdiag=$(cat ${scriptsdir}/build_gsinfo/satinfo/satellites)
-alldiag="$satdiag conv_tcp conv_gps conv_t conv_q conv_uv conv_ps sbuv2_n09 sbuv2_n11 sbuv2_n14 sbuv2_n16 sbuv2_n17 sbuv2_n18 sbuv2_n19 gome_metop-a gome_metop-b gome_metop-c omi_aura mls30_aura ompsnp_npp ompstc8_npp ompsnp_n20 ompstc8_n20"
+ozdiag=$(cat ${scriptsdir}/build_gsinfo/oznfo/satellites)
+alldiag="$satdiag $ozdiag conv_tcp conv_gps conv_t conv_q conv_uv conv_ps"
 string='ges'
 for type in $satdiag; do
     if [[ "$cold_start_bias" = "true" ]]; then
