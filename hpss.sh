@@ -1,4 +1,4 @@
-# need envars:  machine, analdate, datapath, hsidir
+# need envars:  machine, analdate, analdatem1, datapath, hsidir
 exitstat=0
 if [ $machine == "gaea" ]; then
    htar=/sw/rdtn/hpss/default/bin/htar
@@ -20,6 +20,6 @@ if [  $exitstat -ne 0 ]; then
    exit 1
 else
    # remove everything except logs, gsistats and  abias* files
-   /bin/rm -f ${analdate}/*diag*nc* ${analdate}/*info* ${analdate}/sanl* ${analdate}/gsiparm.anl
+   /bin/rm -f ${analdatem1}/*diag*nc* ${analdate}/*info* ${analdate}/sanl* ${analdate}/gsiparm.anl
 fi
 exit $exitstat

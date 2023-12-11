@@ -44,6 +44,6 @@ else
   echo "data written to ${s3path}"
   aws s3 ls --no-sign-request $s3path
   # remove everything except logs, gsistats and  abias* files
-  /bin/rm -f ${analdate}/*diag*nc* ${analdate}/*info* ${analdate}/sanl* ${analdate}/gsiparm.anl
+  /bin/rm -f ${analdatem1}/*diag*nc* ${analdate}/*info* ${analdate}/sanl* ${analdate}/gsiparm.anl
 fi
 exit $exitstat

@@ -137,7 +137,7 @@ elif [ $save_s3 == 'true' ]; then
 fi
 
 if [ $save_hpss == 'true' ] || [ $save_s3 == 'true' ]; then
-   sbatch --export=machine=${machine},analdate=${analdate},analdate_prod=${analdate_prod},datapath=${datapath},hsidir=${hsidir},save_hpss=${save_hpss},obs_datapath=${obs_datapath} job_hpss.sh
+   sbatch --export=machine=${machine},analdate=${analdate},analdatem1=${analdatem1},analdate_prod=${analdate_prod},datapath=${datapath},hsidir=${hsidir},save_hpss=${save_hpss},obs_datapath=${obs_datapath} job_hpss.sh
 fi
 
 echo "$analdate all done"
