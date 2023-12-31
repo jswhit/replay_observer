@@ -92,6 +92,16 @@ else
    echo "$analdate failed to get replay backgrounds and bufr dumps `date`"
    exit 1
 fi
+
+# is there a new sat instrument at this anal time?
+cd build_gsinfo
+sh checknewsat.sh $analdate
+if [ $? -gt 0 ]; then
+   export newsat="true"
+else
+   export newsat="false"
+fi
+cd ..
  
 # get obs from aws
 #echo "$analdate get bufr dumps `date`"
@@ -111,6 +121,16 @@ fi
 type="3DVar"
 export charnanal='control' 
 export charnanal2='control'
+# if a new sat detected, run observer before running var solver.
+if [ $newsat == "true" ]; then
+   echo "new sat detected, ${analdate} compute gsi observer"
+   sh ${scriptsdir}/run_gsiobserver.sh > ${current_logdir}/run_gsiobserver.out 2>&1
+   if [  ! -s ${datapath2}/diag_conv_uv_ges.${analdate}_${charnanal2}.nc4 ]; then
+      echo "gsi observer step failed"
+      echo "no" > ${current_logdir}/run_gsi_anal.log 2>&1
+      exit 1
+   fi
+fi
 echo "$analdate run $type `date`"
 sh ${scriptsdir}/run_gsianal.sh > ${current_logdir}/run_gsianal.out 2>&1
 # once gsi has completed, check log files.
