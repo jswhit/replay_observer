@@ -50,41 +50,36 @@ if [ $machine == "hercules" ]; then
    module load gsi-ncdiag
    module load awscli
    export PATH="/work/noaa/gsienkf/whitaker/miniconda3/bin:$PATH"
-   export gsipath=/lustre/f2/dev/Jeffrey.S.Whitaker/GSI
+   export gsipath=/work/noaa/gsienkf/whitaker/GSI
    export fixgsi=${gsipath}/fix
    export fixcrtm=$CRTM_FIX
    export execdir=${scriptsdir}/exec_${machine}
    export gsiexec=${execdir}/gsi.x
 elif [ "$machine" == 'gaea' ]; then
-   export basedir=/lustre/f2/dev/${USER}
-   export datadir=/lustre/f2/scratch/${USER}
+   export basedir=/gpfs/f5/nggps_psd/scratch/${USER}
+   export datadir=${basedir}
    export hsidir="/ESRL/BMC/gsienkf/2year/whitaker/${exptname}"
    export scriptsdir="${basedir}/scripts/${exptname}"
    export homedir=$scriptsdir
    export datapath="${datadir}/${exptname}"
    export logdir="${datadir}/logs/${exptname}"
    export incdate="${scriptsdir}/incdate.sh"
-   #export obs_datapath=/lustre/f2/dev/Jeffrey.S.Whitaker/dumps
    export obs_datapath=${datapath}/dumps
    ulimit -s unlimited
-   source /lustre/f2/dev/role.epic/contrib/Lmod_init.sh
-   module unload cray-libsci
-   module load PrgEnv-intel/8.3.3
-   module load intel-classic/2023.1.0
-   module load cray-mpich/8.1.25
-   #module use /lustre/f2/dev/wpo/role.epic/contrib/spack-stack/c5/spack-stack-1.5.0/envs/unified-env/install/modulefiles/Core
-   #module use /lustre/f2/dev/wpo/role.epic/contrib/spack-stack/c5/modulefiles
-   module use /lustre/f2/dev/wpo/role.epic/contrib/spack-stack/c5/spack-stack-dev-20230717/envs/unified-env/install/modulefiles/Core
-   module use /lustre/f2/dev/wpo/role.epic/contrib/spack-stack/c5/modulefiles
+   module use /ncrc/proj/epic/spack-stack/spack-stack-1.5.1/envs/unified-env/install/modulefiles/Core
+   module use /ncrc/proj/epic/spack-stack/spack-stack-1.5.1/envs/gsi-addon/install/modulefiles/Core
    module load stack-intel/2023.1.0
    module load stack-cray-mpich/8.1.25
-   module load stack-python/3.9.12
-   module load bufr/11.7.0
+   module load stack-python
+   module load parallelio
    module load crtm/2.4.0
    module load gsi-ncdiag
+   module load grib-util
    module load awscli
-   export PATH="/lustre/f2/dev/Jeffrey.S.Whitaker/conda/bin:${PATH}"
-   export gsipath=/lustre/f2/dev/Jeffrey.S.Whitaker/GSI
+   module load bufr/11.7.0
+   module list
+   export PATH="/gpfs/f5/nggps_psd/proj-shared/Jeffrey.S.Whitaker/conda/bin:${PATH}"
+   export gsipath=/gpfs/f5/nggps_psd/proj-shared/Jeffrey.S.Whitaker/GSI
    export fixgsi=${gsipath}/fix
    export fixcrtm=$CRTM_FIX
    export execdir=${scriptsdir}/exec_${machine}
