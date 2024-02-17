@@ -70,15 +70,16 @@ elif [ "$machine" == 'gaea' ]; then
    module use /ncrc/proj/epic/spack-stack/spack-stack-1.5.1/envs/gsi-addon/install/modulefiles/Core
    module load stack-intel/2023.1.0
    module load stack-cray-mpich/8.1.25
-   module load stack-python
    module load parallelio
    module load crtm/2.4.0
    module load gsi-ncdiag
    module load grib-util
    module load awscli
    module load bufr/11.7.0
+   module load python
+   module load py-netcdf4
    module list
-   export PATH="/gpfs/f5/nggps_psd/proj-shared/Jeffrey.S.Whitaker/conda/bin:${PATH}"
+   #export PATH="/gpfs/f5/nggps_psd/proj-shared/Jeffrey.S.Whitaker/conda/bin:${PATH}"
    export gsipath=/gpfs/f5/nggps_psd/proj-shared/Jeffrey.S.Whitaker/GSI
    export fixgsi=${gsipath}/fix
    export fixcrtm=$CRTM_FIX
