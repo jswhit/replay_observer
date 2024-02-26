@@ -13,9 +13,9 @@ which aws
 if [ $? -ne 0 ]; then
    echo "SLURM_CLUSTER_NAME=$SLURM_CLUSTER_NAME"
    if  [ $SLURM_CLUSTER_NAME == 'es' ]; then #
-      module use /ncrc/proj/epic/spack-stack/spack-stack-1.5.1/envs/unified-env/install/modulefiles/Core
+      module use /ncrc/proj/epic/spack-stack/spack-stack-1.6.0/envs/unified-env/install/modulefiles/Core
       module load stack-intel/2023.1.0
-      module load awscli
+      module load awscli-v2
    elif [ $SLURM_CLUSTER_NAME == 'hercules' ]; then
       module purge
       module use /work/noaa/epic/role-epic/spack-stack/hercules/modulefiles
