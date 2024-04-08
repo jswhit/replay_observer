@@ -17,7 +17,16 @@ to <expthome>/YYYYMMDDHH. Create an empty aircraft bias correction file by touch
 
 Create analdate.sh in the top level experiment directory (<expthome>).
 analdate.csh should contain
-"export analdate=YYYYMMDDHH_start" and "export analdate_end=YYYYMMDDHH_end", where YYYYMMDDHH_start,_end ares the
+"export analdate=YYYYMMDDHH_start" and "export analdate_end=YYYYMMDDHH_end", where YYYYMMDDHH_start,_end are the
 dates you want the experiment to start and end.
 
 gsi.x executable needs to be in exec_<machine>
+
+
+Problems that can occur:
+1) job to get obs/backgrounds from AWS fails, because of slow network connection or problem to data transfer queue).  Resubmit.
+2) GSI fails when reading aircraft bias correction (gdas.tHHz.abias_air file). Entry has non alphanumeric characters (usually in 
+aircraft ID).  Delete that entry and resubmit (or copy abias_air file from previous analysis time).
+3) GSI fails when reading radiance bias correction (gdas.tHHz.abias file).  Bias correction coefficient overflows format 
+statement (i.e. value becomes less than -9999.999, so that '***' appears in file). Reset value to -9000.000 and resubmit.
+4) Job times out due to slow filesystem.  Resubmit.
